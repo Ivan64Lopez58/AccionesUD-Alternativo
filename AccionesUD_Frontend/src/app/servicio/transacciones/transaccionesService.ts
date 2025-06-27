@@ -102,13 +102,6 @@ export class TransaccionesService {
    */
   depositFunds(amount: number): Observable<{ redirectUrl: string }> {
     const headers = this.getAuthHeaders();
-    // Creamos los parámetros de la URL
-    const params = new HttpParams().set('amount', amount.toString());
-    // Hacemos el POST sin body, solo con headers y params
-  return this.http.post<{ redirectUrl: string }>(
-    `${this.baseUrl}/balance/update`,
-    null, // No enviamos body
-    { headers, params }
-  );
+    return this.http.post<{ redirectUrl: string }>(`${this.baseUrl}/deposit`, { amount }, { headers });
   }
 }

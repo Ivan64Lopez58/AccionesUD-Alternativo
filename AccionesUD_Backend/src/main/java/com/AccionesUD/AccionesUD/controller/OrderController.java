@@ -49,6 +49,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO dto, Principal principal) {
         try {
+            String username = principal.getName();
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             OrderResponseDTO resp = orderService.createOrder(dto, username);
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
