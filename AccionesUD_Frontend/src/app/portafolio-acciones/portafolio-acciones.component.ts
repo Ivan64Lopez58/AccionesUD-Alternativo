@@ -1,39 +1,42 @@
-// src/app/portafolio-acciones/portafolio-acciones.component.ts
-
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { PiePaginaPrincipalComponent } from '../pie-pagina-principal/pie-pagina-principal.component';
-import { Menu2Component } from '../menu2/menu2.component';
-import { PortafolioAccionesService } from './portafolio-acciones.service';
+import { Component } from '@angular/core';
 import { StockItem } from './portafolio-acciones.model';
+import { CommonModule } from '@angular/common';
+import { PiePaginaPrincipalComponent } from '../pie-pagina-principal/pie-pagina-principal.component';
+import { Menu2Component } from "../menu2/menu2.component";
 
 @Component({
   selector: 'app-portafolio-acciones',
   standalone: true,
   imports: [
     CommonModule,
-    HttpClientModule,                   // ← necesario para HttpClient
     PiePaginaPrincipalComponent,
     Menu2Component,
   ],
   templateUrl: './portafolio-acciones.component.html',
-  styleUrls: ['./portafolio-acciones.component.css'],
+  styleUrl: './portafolio-acciones.component.css',
 })
-export class PortafolioAccionesComponent implements OnInit {
-  portfolio: StockItem[] = [];         // arranca vacío
-  sortBy = '';
-  filterSector = '';
+export class PortafolioAccionesComponent {
 
-  constructor(private portService: PortafolioAccionesService) {}
+  portfolio: StockItem[] = [
+    {
+      name: 'TESLA',
+      quantity: 10,
+      currentPrice: 800,
+      initialPrice: 600,
+      sector: 'Tecnología',
+    },
+    {
+      name: 'ECOPETROL',
+      quantity: 50,
+      currentPrice: 3000,
+      initialPrice: 2800,
+      sector: 'Energía',
+    },
+    // otros elementos...
+  ];
+  sortBy: string = '';
+  filterSector: string = '';
 
-  ngOnInit(): void {
-    // Llama al endpoint /api/orders/me, el backend infiere el usuario
-    this.portService.getMyPortfolio().subscribe({
-      next: data => this.portfolio = data,
-      error: err  => console.error('Error cargando portafolio', err)
-    });
-  }
 
   onSortChange(event: Event) {
     this.sortBy = (event.target as HTMLSelectElement).value;
@@ -43,16 +46,16 @@ export class PortafolioAccionesComponent implements OnInit {
     this.filterSector = (event.target as HTMLSelectElement).value;
   }
 
-  filteredPortfolio(): StockItem[] {
+  filteredPortfolio() {
     let data = [...this.portfolio];
 
     if (this.filterSector) {
-      data = data.filter(stock => stock.sector === this.filterSector);
+      data = data.filter((stock) => stock.sector === this.filterSector);
     }
 
     if (this.sortBy === 'valor') {
-      data.sort((a, b) =>
-        b.currentPrice * b.quantity - a.currentPrice * a.quantity
+      data.sort(
+        (a, b) => b.currentPrice * b.quantity - a.currentPrice * a.quantity
       );
     } else if (this.sortBy === 'nombre') {
       data.sort((a, b) => a.name.localeCompare(b.name));
@@ -64,10 +67,16 @@ export class PortafolioAccionesComponent implements OnInit {
   }
 
   rendimiento(stock: StockItem): number {
-    return ((stock.currentPrice - stock.initialPrice) / stock.initialPrice) * 100;
+    return (
+      ((stock.currentPrice - stock.initialPrice) / stock.initialPrice) * 100
+    );
+  }
+
+  totalValue(stock: StockItem): number {
+    return stock.quantity * stock.currentPrice;
   }
 
   sectores(): string[] {
-    return [...new Set(this.portfolio.map(stock => stock.sector))];
+    return [...new Set(this.portfolio.map((stock) => stock.sector))];
   }
 }

@@ -47,6 +47,7 @@ public class OrderServiceImpl implements OrderService {
         OrderValidator.validate(requestDTO);
         StockInfo quote = stockService.getLatestTrade(requestDTO.getSymbol());
         Order orderEntity = modelMapper.map(requestDTO, Order.class);
+    
         orderEntity.setUsername(username);
         orderEntity.setMarketPrice(quote.getPrice());
         orderEntity.setMarket(quote.getSymbol());

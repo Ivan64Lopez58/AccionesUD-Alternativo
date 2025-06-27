@@ -1,11 +1,10 @@
-<app-menu2></app-menu2>
-
+<app-menu2>
+</app-menu2>
 <div class="controls">
   <h1>Mi portafolio de acciones</h1>
   <div class="filters">
     <label for="sector" class="sector">Filtrar por sector:</label>
     <select id="sector" (change)="onSectorChange($event)">
-      <!-- value vacío = “todas” -->
       <option value="">Todas</option>
       <option *ngFor="let s of sectores()" [value]="s">{{ s }}</option>
     </select>
@@ -20,35 +19,18 @@
   </div>
 </div>
 
-<!-- Si aún no cargó, mostramos un mensaje -->
-<div *ngIf="!portfolio.length" class="loading">
-  Cargando tu portafolio…
-</div>
-
 <div class="portfolio-cards">
   <div class="card" *ngFor="let stock of filteredPortfolio()">
     <button class="sell-btn">Vender</button>
     <div class="name">{{ stock.name }}</div>
     <div class="values">
-      <div>
-        <strong>{{ stock.quantity }}</strong><br>
-        <small>Cantidad</small>
-      </div>
-      <div>
-        <strong>{{ stock.currentPrice | currency }}</strong><br>
-        <small>Precio actual</small>
-      </div>
-      <div>
-        <strong>{{ stock.initialPrice | currency }}</strong><br>
-        <small>Precio comprado</small>
-      </div>
-      <div>
-        <strong>{{ rendimiento(stock) | number:'1.2-2' }}%</strong><br>
-        <small>Rendimiento</small>
-      </div>
+      <div><span>{{ stock.quantity }}</span> Cantidad</div>
+      <div><span>${{ stock.currentPrice }}</span> Precio actual</div>
+      <div><span>${{ stock.initialPrice }}</span> Precio comprado</div>
+      <div><span>{{ rendimiento(stock) | number:'1.2-2' }}%</span> Rendimiento</div>
     </div>
     <div class="options">•••</div>
   </div>
 </div>
-
-<app-pie-pagina-principal></app-pie-pagina-principal>
+<app-pie-pagina-principal>
+</app-pie-pagina-principal>

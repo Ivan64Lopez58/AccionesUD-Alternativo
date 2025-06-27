@@ -1,6 +1,5 @@
 package com.AccionesUD.AccionesUD.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -47,13 +46,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO dto, Principal principal) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequestDTO dto) {
         try {
-            String username = principal.getName();
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             OrderResponseDTO resp = orderService.createOrder(dto, username);
             return ResponseEntity.status(HttpStatus.CREATED).body(resp);
-        } catch (IllegalArgumentException ex) {
+           
+        } 
+         catch (IllegalArgumentException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -75,18 +75,6 @@ public class OrderController {
                                  .body("Error interno al listar por usuario.");
         }
     }
-
-    @GetMapping("/me")
-public ResponseEntity<?> listarMisOrdenes(Principal principal) {
-    try {
-        String username = principal.getName();
-        List<OrderResponseDTO> list = orderService.listarOrdenesPorUsuario(username);
-        return ResponseEntity.ok(list);
-    } catch (Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                             .body("Error interno al listar tus órdenes.");
-    }
-}
 
     @GetMapping("/user/{username}/count")
     public ResponseEntity<?> contarPorUsuario(@PathVariable String username) {
