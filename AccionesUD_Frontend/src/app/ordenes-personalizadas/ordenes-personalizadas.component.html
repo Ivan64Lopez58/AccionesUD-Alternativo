@@ -1,36 +1,46 @@
 <app-menu2 style="position: fixed; top: 0; left: 0; width: 101vw; z-index: 1000;"></app-menu2>
 
-<div class="ordenes-lista">
-  <div class="orden-tarjeta" *ngFor="let orden of ordenes">
-    <div class="orden-info">
-      <div class="orden-header">
-        <img [src]="orden.logo" alt="{{orden.name}}" class="orden-logo">
-        <div>
-          <div class="orden-titulo">{{orden.name}}</div>
-          <div class="orden-subtitulo">{{orden.country}}</div>
+<div class="ordenes-contenedor">
+  <div class="ordenes-lista">
+    <div class="orden-tarjeta" *ngFor="let orden of ordenes">
+      <div class="orden-info">
+        <div class="orden-header">
+          <img 
+            [src]="orden.logo" 
+            [alt]="orden.name" 
+            class="orden-logo" 
+            [class.logo-oculto]="orden.logo === 'N/A'"
+          >
+          <div>
+            <div class="orden-titulo">{{orden.name}}</div>
+            <div class="orden-subtitulo">{{orden.country}}</div>
+          </div>
+        </div>
+
+        <div class="orden-precios">
+          <button class="orden-precio comprar" (click)="abrirModal(orden, 'BUY')">
+            <div class="valor">{{orden.compraPrecio}} <span class="moneda">{{orden.moneda}}</span></div>
+            {{ 'BUY' | translate }}
+          </button>
+          <button class="orden-precio vender" (click)="abrirModal(orden, 'SELL')">
+            <div class="valor">{{orden.ventaPrecio}} <span class="moneda">{{orden.moneda}}</span></div>
+            {{ 'SELL' | translate }}
+          </button>
+        </div>
+
+        <div class="orden-cantidad">
+          <span class="cantidad">{{orden.cantidad}}</span>
+          <span class="cantidad-label">{{ 'QUANTITY' | translate }}</span>
         </div>
       </div>
-      <div class="orden-precios">
-        <button class="orden-precio comprar" (click)="abrirModal(orden, 'BUY')">
-          <div class="valor">{{orden.compraPrecio}} <span class="moneda">{{orden.moneda}}</span></div>
-          {{ 'BUY' | translate }}
-        </button>
-        <button class="orden-precio vender" (click)="abrirModal(orden, 'SELL')">
-          <div class="valor">{{orden.ventaPrecio}} <span class="moneda">{{orden.moneda}}</span></div>
-          {{ 'SELL' | translate }}
-        </button>
-      </div>
-      <div class="orden-cantidad">
-        <span class="cantidad">{{orden.cantidad}}</span>
-        <span class="cantidad-label">{{ 'QUANTITY' | translate }}</span>
-      </div>
-    </div>
-    <div class="orden-grafica">
-      <img [src]="orden.grafica" alt="{{ 'GRAPH_OF' | translate:{ name: orden.name } }}">
     </div>
   </div>
-  <app-pie-pagina-principal style="position: flex; width: 99.2vw; height: 100%; top: -0;"></app-pie-pagina-principal>
-</div>
+
+  <div style="height: 5cm;"></div>
+ <app-pie-pagina-principal class="footer-abajo"></app-pie-pagina-principal>
+  <!-- Pie de página fijo -->
+ </div>
+
 
 <!-- Modal -->
 <div class="modal" *ngIf="mostrarModal">
@@ -49,9 +59,16 @@
       <label class="cantidad-modal" for="cantidad">{{ 'QUANTITY' | translate }}:
         <input type="number" id="cantidad" step="0.1" min="0.1" [(ngModel)]="cantidad" max="{{ordenSeleccionada?.cantidad}}">
       </label>
-      <label class="precio-modal" for="precio">{{ 'PRICE' | translate }}:
-        <p>{{ordenSeleccionada?.compraPrecio}}</p>
-      </label>
+        <label class="precio-modal" for="precio">{{ 'PRICE' | translate }}:
+          <p>
+            {{
+              tipoOperacion === 'SELL'
+                ? ordenSeleccionada?.ventaPrecio
+                : ordenSeleccionada?.compraPrecio
+            }}
+          </p>
+        </label>
+
     </div>
 
     <div class="datos-modal">

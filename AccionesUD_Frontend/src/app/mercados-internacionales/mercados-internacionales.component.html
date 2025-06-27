@@ -54,15 +54,15 @@
 
           <!-- % CAMBIO -->
           <td>
-            <span class="cambio-con-icono" [ngClass]="{'negativo': accion.cambio_pct.startsWith('-'), 'positivo': !accion.cambio_pct.startsWith('-')}">
+            <span class="cambio-con-icono" [ngClass]="{'negativo': accion.cambio.startsWith('-'), 'positivo': !accion.cambio.startsWith('-')}">
               {{ accion.cambio_pct }}
-              <img *ngIf="accion.cambio_pct.startsWith('-')" src="/flecha_abajo.png" alt="baja" class="icono-flecha">
-              <img *ngIf="!accion.cambio_pct.startsWith('-')" src="/flecha_arriba.png" alt="sube" class="icono-flecha">
+              <img *ngIf="accion.cambio.startsWith('-')" src="/flecha_abajo.png" alt="baja" class="icono-flecha">
+              <img *ngIf="!accion.cambio.startsWith('-')" src="/flecha_arriba.png" alt="sube" class="icono-flecha">
             </span>
           </td>
 
           <td>{{ accion.hora_cierre }}</td>
-          <td>{{ accion.pais }}</td>
+          <td>{{ accion.moneda }}</td>
         </tr>
       </tbody>
     </table>

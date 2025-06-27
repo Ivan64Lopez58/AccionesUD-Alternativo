@@ -32,6 +32,7 @@ export class OrdenesPersonalizadasComponent implements OnInit {
   mostrarModalConfirmacion: boolean = false;
   ordenSeleccionada: Order | null = null; // Almacena la orden seleccionada
   modalTitulo: string = '';
+  tipoOperacion: 'BUY' | 'SELL' | null = null;
 
   // Estas propiedades ya no se inicializan con valores fijos, se asignarán desde la orden:
   cantidad!: number;
@@ -84,7 +85,9 @@ ngOnInit(): void {
 }
 
 
-  abrirModal(orden: Order, operacion: string): void {
+abrirModal(orden: Order, operacion: 'BUY' | 'SELL') {
+  this.ordenSeleccionada = orden;
+  this.tipoOperacion = operacion;
     this.ordenSeleccionada = orden;
     // Asignar datos recibidos del backend a las propiedades locales
     this.cantidad = orden.cantidad;
@@ -148,5 +151,8 @@ ngOnInit(): void {
     this.cerrarModal();
     this.cerrarModalConfirmacion();
   }
+
+
+
 
 }

@@ -14,6 +14,19 @@ export enum OrderState {
   EJECUTADA = 'Ejecutada'
 }
 
+interface Accion {
+  nombre_empresa: string;
+  precio: string;
+  cambio: string;
+  cambio_pct: string;
+  hora_cierre: string;
+  pais: string;
+  moneda: string;
+  simbolo: string;
+  logo_empresa: string;
+}
+
+
 export interface Order {
   id: number;
   name: string;
@@ -58,64 +71,62 @@ export class OrderService {
   constructor(private http: HttpClient, private stockService: StockService) {}
 
 getOrders(): Observable<Order[]> {
-    // Datos de prueba mientras no se conecta al back end
-    const testOrders: Order[] = [
-      {
-        id: 1,
-        name: 'ECOPETROL S.A.',
-        country: 'COL',
-        logo: './ecopetrol-logo.svg',
-        grafica: './grafica-ecopetrol.svg',
-        compraPrecio: 1816,
-        ventaPrecio: 1798,
-        cantidad: 0.5,
-        moneda: 'COP',
-        spread: 32.982,
-        spreadpips: 0.02,
-        comision: 0,
-        comisionporsentaje: 0.00,
-        valorPip: 91.521,
-        swapDiarioCompra: '-15.215,00',
-        swapDiarioVenta: '-21.452,00',
-        tipoOrden: 'market',
-        stopLoss: 0.1,
-        takeProfit: 0,
-        totalEstimado: 1816,
-        saldoDisponible: 412.456,
-        fechaCreacion: '2023-10-01T12:00:00Z',
-        estado: OrderState.PENDIENTE,
-        operacion: 'Comprar'
-      },
-      {
-        id: 2,
-        name: 'TESLA, INC.',
-        country: 'EE.UU.',
-        logo: './tesla-logo.svg',
-        grafica: './grafica-tesla.svg',
-        compraPrecio: 350.23,
-        ventaPrecio: 342.82,
-        cantidad: 0.3,
-        moneda: 'USD',
-        spread: 1.5,
-        spreadpips: 0.1,
-        comision: 0.5,
-        comisionporsentaje: 0.15,
-        valorPip: 0.8,
-        swapDiarioCompra: '-0.25',
-        swapDiarioVenta: '-0.30',
-        tipoOrden: 'market',
-        stopLoss: 0,
-        takeProfit: 0,
-        totalEstimado: 350.23,
-        saldoDisponible: 1000,
-        fechaCreacion: '2023-10-02T14:30:00Z',
-        estado: OrderState.EJECUTADA,
-        operacion: 'Vender' 
-      }
-    ];
-    return of(testOrders);
-    // Cuando esté disponible el backend, utiliza:
-    // return this.http.get<Order[]>(this.apiUrl);
+  const cacheRaw = localStorage.getItem('acciones_para_ordenes');
+  if (cacheRaw) {
+    try {
+      const acciones: Accion[] = JSON.parse(cacheRaw);
+      const ordenes = acciones.map((accion, index) => {
+        const precio = parseFloat(accion.precio);
+        const compra = Number((precio - 0.4 / 2).toFixed(3));
+        const venta = Number((precio + 0.4 / 2).toFixed(3));
+        const cantidad = 5;
+
+        const spread = Number(Math.abs(compra - venta).toFixed(3));
+        const spreadpips = Number((spread / 100).toFixed(3));
+        const totalEstimado = Number((cantidad * compra).toFixed(3));
+        const comisionporsentaje = 0.001;
+        const comision = Number((totalEstimado * comisionporsentaje).toFixed(3));
+        const valorPip = Number((spread * cantidad).toFixed(3));
+        const stopLoss = Number((compra * 0.98).toFixed(3));
+        const takeProfit = Number((compra * 1.02).toFixed(3));
+
+        return {
+          id: index,
+          name: accion.nombre_empresa,
+          country: accion.pais,
+          logo: accion.logo_empresa,
+          grafica: '',
+          compraPrecio: compra,
+          ventaPrecio: venta,
+          cantidad: cantidad,
+          moneda: accion.moneda,
+          spread: spread,
+          spreadpips: spreadpips,
+          comision: comision,
+          comisionporsentaje: Number((comisionporsentaje * 100).toFixed(3)),
+          valorPip: valorPip,
+          swapDiarioCompra: '-0.25',
+          swapDiarioVenta: '-0.30',
+          tipoOrden: 'market',
+          stopLoss: stopLoss,
+          takeProfit: takeProfit,
+          totalEstimado: totalEstimado,
+          saldoDisponible: 1000,
+          fechaCreacion: new Date().toISOString(),
+          estado: OrderState.PENDIENTE,
+          operacion: ''
+        };
+      });
+
+      return of(ordenes);
+    } catch (e) {
+      console.error('⚠️ Error al leer acciones del localStorage', e);
+    }
   }
+
+  return of([]);
+}
+
+
 
 }

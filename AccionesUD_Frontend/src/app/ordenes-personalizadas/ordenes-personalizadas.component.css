@@ -756,3 +756,425 @@
   clip: rect(0 0 0 0);
   border: 0;
 }
+
+
+.logo-oculto {
+  visibility: hidden; 
+}
+
+.modal{
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+/* Estilos Profesionales para Lista de Órdenes */
+.ordenes-lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  min-height: 100vh;
+}
+
+.orden-tarjeta {
+  background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(220, 53, 69, 0.08),
+    0 4px 16px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(220, 53, 69, 0.12);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.orden-tarjeta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #dc3545 0%, #e74c3c 50%, #c82333 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.orden-tarjeta:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(220, 53, 69, 0.15),
+    0 8px 24px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border-color: rgba(220, 53, 69, 0.2);
+}
+
+.orden-tarjeta:hover::before {
+  opacity: 1;
+}
+
+.orden-info {
+  padding: 28px;
+}
+
+.orden-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(220, 53, 69, 0.08);
+  position: relative;
+}
+
+.orden-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 2px solid rgba(220, 53, 69, 0.1);
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+  padding: 8px;
+  transition: all 0.3s ease;
+}
+
+.logo-oculto {
+  opacity: 0.3;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.orden-titulo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 4px;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+.orden-subtitulo {
+  font-size: 14px;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.orden-precios {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.orden-precio {
+  flex: 1;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.orden-precio::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.orden-precio:hover::before {
+  left: 100%;
+}
+
+.comprar {
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  color: white;
+  box-shadow: 0 4px 16px rgba(220, 53, 69, 0.3);
+}
+
+.comprar:hover {
+  background: linear-gradient(135deg, #c82333 0%, #dc3545 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 53, 69, 0.4);
+}
+
+.vender {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+  color: #dc3545;
+  border: 2px solid rgba(220, 53, 69, 0.2);
+  box-shadow: 0 4px 16px rgba(220, 53, 69, 0.1);
+}
+
+.vender:hover {
+  background: linear-gradient(135deg, #dc3545 0%, #e74c3c 100%);
+  color: white;
+  border-color: #dc3545;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 53, 69, 0.3);
+}
+
+.valor {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.moneda {
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-left: 4px;
+}
+
+.orden-cantidad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff5f5 0%, rgba(220, 53, 69, 0.05) 100%);
+  border-radius: 12px;
+  border: 1px solid rgba(220, 53, 69, 0.1);
+  position: relative;
+  
+   margin-left: 80px;
+}
+
+.cantidad {
+  font-size: 28px;
+  font-weight: 800;
+  color: #dc3545;
+  line-height: 1;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(220, 53, 69, 0.1);
+ 
+}
+
+.cantidad-label {
+  font-size: 12px;
+  color: #6c757d;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.orden-grafica {
+  min-height: 120px;
+  background: linear-gradient(135deg, #f8f9fa 0%, rgba(220, 53, 69, 0.02) 100%);
+  border-top: 1px solid rgba(220, 53, 69, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.orden-grafica::before {
+  content: 'GRÁFICA';
+  color: rgba(220, 53, 69, 0.3);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+/* Animaciones adicionales */
+@keyframes pulseRed {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); 
+  }
+  50% { 
+    box-shadow: 0 0 0 8px rgba(220, 53, 69, 0); 
+  }
+}
+
+.orden-tarjeta:hover .comprar {
+  animation: pulseRed 2s infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ordenes-lista {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+  
+  .orden-info {
+    padding: 20px;
+  }
+  
+  .orden-precios {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .orden-precio {
+    padding: 14px 16px;
+  }
+  
+  .valor {
+    font-size: 18px;
+  }
+}
+
+/* Estados adicionales */
+.orden-tarjeta.activa {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}
+
+.orden-tarjeta.procesando {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.orden-tarjeta.procesando::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(220, 53, 69, 0.1), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+
+.orden-tarjeta {
+  background: rgba(255, 0, 0, 0.05); /* rojo muy sutil translúcido */
+  border-radius: 20px;
+  border: 1px solid rgba(220, 53, 69, 0.25);
+  backdrop-filter: blur(10px) saturate(180%);
+  box-shadow:
+    0 4px 10px rgba(220, 53, 69, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  transform-style: preserve-3d;
+}
+
+/* Efecto de brillo animado en el borde al hacer hover */
+.orden-tarjeta::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #dc3545, #e74c3c, #ff6f61, #dc3545);
+  background-size: 300% 300%;
+  border-radius: 22px;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: glowBorder 5s linear infinite;
+}
+
+/* Al pasar el cursor se activa */
+.orden-tarjeta:hover::before {
+  opacity: 1;
+}
+
+@keyframes glowBorder {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Eleva la tarjeta y hace zoom ligero */
+.orden-tarjeta:hover {
+  transform: scale(1.03);
+  box-shadow:
+    0 12px 32px rgba(220, 53, 69, 0.2),
+    0 6px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 5;
+}
+
+/* Asegura que el contenido esté por encima del borde animado */
+.orden-info {
+  position: relative;
+  z-index: 1;
+}
+
+
+
+/* Posicionamiento del Footer */
+.footer-abajo {
+  margin-top: 6cm; /* 2 cm de separación del último elemento */
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+/* Si necesitas asegurar que siempre esté al fondo de la página */
+.footer-abajo {
+  margin-top: 6cm;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  clear: both; /* Limpia cualquier float */
+}
+
+/* Alternativa si quieres que siempre esté visible al fondo de la ventana */
+.footer-abajo.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+  margin-top: 6cm;
+  width: 100%;
+  z-index: 10;
+  background: white;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Para dispositivos móviles, podrías querer menos espacio */
+@media (max-width: 768px) {
+  .footer-abajo {
+    margin-top: 1.5cm; /* Menos espacio en móvil */
+  }
+}
+
+
+.orden-titulo {
+  font-size: 22px; /* más grande */
+  font-weight: 800;
+  color: #dc3545; /* rojo elegante */
+  margin-bottom: 4px;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.orden-subtitulo {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #6c757d;
+  letter-spacing: 1px;
+  opacity: 0.85;
+}
+.orden-tarjeta:hover .orden-titulo {
+  color: #b3001b;
+  transform: scale(1.03);
+  transition: all 0.3s ease;
+}
